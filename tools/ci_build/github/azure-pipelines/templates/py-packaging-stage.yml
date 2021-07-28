@@ -126,7 +126,7 @@ stages:
             cd $(Build.BinariesDirectory)/Release
             python3 $(Build.SourcesDirectory)/tools/ci_build/build.py \
                   --build_dir /build --cmake_generator Ninja \
-                  --config Release --update --build \
+                  --config Release --test \
                   --skip_submodule_sync \
                   --parallel \
                   --enable_lto \
