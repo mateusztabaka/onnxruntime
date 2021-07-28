@@ -132,7 +132,7 @@ stages:
                   --enable_lto \
                   --build_wheel \
                   --enable_onnx_tests \
-                  ${{ parameters.build_py_parameters }}
+                  ${{ parameters.build_py_parameters }} \
                   --ctest_path ''
 
       - task: CopyFiles@2
