@@ -102,8 +102,8 @@ class OVExeNetwork;
         InferenceEngine::InferRequest infReq;
     #endif
     public:
-        OVTensorPtr GetTensor(std::string& name);
-        void SetTensor(std::string& name, OVTensorPtr& blob);
+        OVTensorPtr GetTensor(const std::string& name);
+        void SetTensor(const std::string& name, OVTensorPtr& blob);
         void StartAsync();
         void WaitRequest();
         void QueryStatus();
