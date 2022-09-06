@@ -18,6 +18,8 @@
 #endif
 #endif
 
+#include <string>
+
 namespace onnxruntime {
 namespace openvino_ep {
 class OVCore;
