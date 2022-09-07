@@ -447,7 +447,8 @@ void BasicBackend::CompleteAsyncInference(Ort::CustomOpApi& ort, OrtKernelContex
                                            return names.find(output_name) != names.end();
                                          });
     if (!output_name_found) {
-      ORT_THROW(log_tag + "Output names mismatch between OpenVINO and ONNX. [ONNX Output: ] " + output_name + " doesn't exist in the list of OpenVINO output tensor names");
+      ORT_THROW(log_tag + "Output names mismatch between OpenVINO and ONNX. [ONNX Output: ] " + output_name +
+                " doesn't exist in the list of OpenVINO output tensor names");
     }
 
     OVTensorPtr graph_output_blob = infer_request->GetTensor(output_name);
