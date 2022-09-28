@@ -55,6 +55,7 @@ class BasicBackend : public IBackend {
   #if defined IO_BUFFER_ENABLED
   OVRemoteContextPtr remote_context_;
   #endif
+  std::vector<std::string> non_const_output_names_;
 };
 
 class InferRequestsQueue {

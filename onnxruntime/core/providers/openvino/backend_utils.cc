@@ -201,7 +201,20 @@ CreateOVModel(const ONNX_NAMESPACE::ModelProto& model_proto, const GlobalContext
 
     for (auto it = results.rbegin(); it != results.rend(); ++it) {
       if (auto const_node = std::dynamic_pointer_cast<ngraph::op::Constant>((*it)->input_value(0).get_node_shared_ptr())) {
-        const_outputs_map[(*it)->get_friendly_name()] = const_node;
+        const auto& ov_names = (*it)->get_output_tensor(0).get_names();
+        bool name_found = false;
+        std::string ov_name;
+        for (const auto& name : ov_names) {
+            name_found = subgraph_context.output_names.find(name) != subgraph_context.output_names.end();
+            if (name_found) {
+              ov_name = name;
+              break;
+            }
+        }
+        if (!name_found) {
+          ORT_THROW(log_tag + "Unable to match constant output " + (*it)->get_friendly_name() + " from OV with ONNX output_name");
+        }
+        const_outputs_map[ov_name] = const_node;
         results.erase(results.begin() + index);
       }
       --index;

@@ -42,6 +42,11 @@ BasicBackend::BasicBackend(const ONNX_NAMESPACE::ModelProto& model_proto,
   if (ValidateSubgraph(const_outputs_map_))
     return;
 
+  for (const auto& it : subgraph_context_.output_names) {
+    if (const_outputs_map_.find(it.first) == const_outputs_map_.end())
+      non_const_output_names_.push_back(it.first);
+  }
+
   // OV Config
   OVConfig config;
   PopulateConfigValue(config);
@@ -381,8 +386,7 @@ void BasicBackend::CompleteAsyncInference(Ort::CustomOpApi& ort, OrtKernelContex
   infer_request->WaitRequest();
   #if defined (OV_API_20)
   auto graph_output_info = exe_network_.Get().outputs();
-  for (const auto& it : subgraph_context_.output_names) {
-    const auto& output_name = it.first;
+  for (const auto& output_name : non_const_output_names_) {
     // using the output name retrieved from ONNX original to match with the output names returned by OV tensors
     bool output_name_found = std::any_of(graph_output_info.begin(), graph_output_info.end(),
                                          [&output_name] (const ov::Output<const ov::Node>& node) {
