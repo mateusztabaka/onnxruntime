@@ -201,7 +201,7 @@ CreateOVModel(const ONNX_NAMESPACE::ModelProto& model_proto, const GlobalContext
 
     for (auto it = results.rbegin(); it != results.rend(); ++it) {
       if (auto const_node = std::dynamic_pointer_cast<ngraph::op::Constant>((*it)->input_value(0).get_node_shared_ptr())) {
-        const_outputs_map[(*it)->get_friendly_name()] = const_node;
+        const_outputs_map[(*it)->get_output_tensor(0).get_any_name()] = const_node;
         results.erase(results.begin() + index);
       }
       --index;
